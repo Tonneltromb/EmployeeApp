@@ -2,8 +2,8 @@ let trToRedact;
 
 $(document).ready(function () {
     popUpHide();
-    showEmployees();
     getPositions();
+    showEmployees();
     $('input').attr('required', 'true');
     $('#pass').attr('pattern', '[A-Z][0-9][0-9][0-9]');
     $('#year').attr('max', new Date().getFullYear()).attr('min', 1999);
@@ -16,12 +16,12 @@ $(document).ready(function () {
 //Функция отрисовки tbody таблицы сотрудников
 function showEmployees() {
     $.getJSON('/employees/showAll', function (data) {
-        console.log(data);
+        $.each(data, function (key, value) {
+            console.log(value);
+            addEmployeeToTable(value);
+        });
 
-        for (let i = 0; i < data.length; i++) {
 
-            addEmployeeToTable(data[i])
-        }
     });
 }
 

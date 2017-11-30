@@ -2,7 +2,7 @@ package tonneltromb.repository;
 
 import java.util.List;
 
-public interface EmployeeServiceIF<E> {
+public interface EmployeeRepositoryServiceInterface<E> {
 
     E getEmployeeById(int value);
 

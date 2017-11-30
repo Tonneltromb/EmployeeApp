@@ -3,9 +3,7 @@ package tonneltromb.repository;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 import tonneltromb.domain.Employee;
 import tonneltromb.domain.Position;
 import tonneltromb.utils.HibernateSessionFactory;
@@ -15,16 +13,10 @@ import java.util.List;
 
 
 @Repository
+public class EmployeeRepository implements EmployeeRepositoryServiceInterface<Employee>, PositionRepositoryServiceInterface<Position> {
 
-public class EmployeeRepository implements EmployeeServiceIF<Employee>, PositionServiceIF<Position> {
-
-    private SessionFactory sessionFactory;
-
-    @Autowired
-    public void getSessionFactory() {
-        this.sessionFactory = HibernateSessionFactory.getSessionFactory();
-
-    }
+    private SessionFactory sessionFactory =
+            HibernateSessionFactory.getSessionFactory();
 
     public Employee getEmployeeById(int id) {
         Session session = sessionFactory.openSession();
@@ -57,7 +49,7 @@ public class EmployeeRepository implements EmployeeServiceIF<Employee>, Position
         return query.getResultList();
     }
 
-    public List<Position> positionsList() {
+    public List<Position> getPositionsList() {
         Session session = sessionFactory.openSession();
         TypedQuery<Position> query = session
                 .createQuery("from Position", Position.class);

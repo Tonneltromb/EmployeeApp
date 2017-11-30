@@ -47,7 +47,7 @@ public class Employee implements Comparable<Employee>, Serializable {
                 .parse(dateOfEmployment);
     }
 
-    public Employee(String name, String lastName, String pass,int positionId,
+    public Employee(String name, String lastName, int positionId, String pass,
                     Date dateOfEmployment) {
         this.name = name;
         this.lastName = lastName;
@@ -68,8 +68,8 @@ public class Employee implements Comparable<Employee>, Serializable {
         return lastName;
     }
 
-    public String getPosition() {
-        return position.getValue();
+    public Position getPosition() {
+        return position;
     }
 
     public int getPositionId() {
@@ -80,8 +80,8 @@ public class Employee implements Comparable<Employee>, Serializable {
         return pass;
     }
 
-    public String getDateOfEmployment() {
-        return dateOfEmployment.toString();
+    public Date getDateOfEmployment() {
+        return dateOfEmployment;
     }
 
 
@@ -148,7 +148,7 @@ public class Employee implements Comparable<Employee>, Serializable {
     public String toString() {
         return "Сотрудник: " + lastName + " " + name +
                 ", номер пропуска: " + pass +
-                ", занимаемая должность: " + position.toString() +
+                ", занимаемая должность: " + position.getValue() +
                 ", дата трудоустройства(год - мес - день): " + dateOfEmployment;
     }
 
