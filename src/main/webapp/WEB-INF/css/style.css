@@ -1,0 +1,93 @@
+
+table{
+    font-size: 20px;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+table h1{
+    position: relative;
+    margin-right: 30%;
+}
+th, td{
+    border: 1px solid black;
+    padding: 15px;
+    text-align: center;
+}
+tr:not(:first-child):hover, tr:hover>td{
+    background-color: lightblue;
+    color: black;
+
+}
+th:nth-child(2n), td:nth-child(2n){
+    background-color:azure;
+}
+
+tfoot td, td.withButton{
+    background-color:white !important;
+}
+form{
+    margin-bottom: auto;
+}
+.withButton{
+    border: none;
+    padding-left: 10px;
+}
+tfoot td{
+    border: none;
+}
+
+button, input, select{
+    outline: none;
+    padding: 6px 12px;
+    background-color: azure;
+    border-width: 2px;
+    border-radius: 30px;
+    font-size: 25px;
+}
+
+.deleteButton:hover{
+    background-color: crimson;
+    color: azure;
+}
+.redactButton:hover, button[type='reset']:hover{
+    background-color: goldenrod;
+    color: azure;
+}
+.addButton:hover, button[type='submit']:hover{
+    background-color: forestgreen;
+    color: azure;
+}
+.refreshButton:hover, .escapeButton:hover{
+    background-color: brown;
+    color: azure;
+}
+
+#popUpContainer{
+    width: 100%;
+    min-height: 100%;
+    background-color: rgba(0,0,0,0.5);
+    overflow: hidden;
+    position: fixed;
+    top: 0;
+}
+#popUpContent{
+    font-size: 30px;
+    margin: 100px auto 0 auto;
+    width: 800px;
+    height: 800px;
+    padding: 10px;
+    background-color: white;
+    border-radius: 50px;
+    box-shadow: 0 0 10px #000;
+}
+input, select{
+    font-size: 30px;
+    border-radius: 15px;
+    padding-left: 15px;
+    margin-left: 20px;
+}
+form p{
+    text-align: right;
+    margin-right: 20%;
+}
