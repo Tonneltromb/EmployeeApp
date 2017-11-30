@@ -45,7 +45,7 @@ public class Position implements Serializable {
 
     @Override
     public String toString() {
-        return getValue();
+        return "Должность: " + value + "," + " id в базе: " + id;
     }
 
     @Override
