@@ -1,8 +1,11 @@
-let trToRedact;
+let id;
+let url;
+let positions = {};
+let employees = {};
 
 $(document).ready(function () {
     popUpHide();
-    getPositions();
+    addPositionsToSelectOfPositions();
     showEmployees();
     $('input').attr('required', 'true');
     $('#pass').attr('pattern', '[A-Z][0-9][0-9][0-9]');
@@ -16,25 +19,25 @@ $(document).ready(function () {
 //Функция отрисовки tbody таблицы сотрудников
 function showEmployees() {
     $.getJSON('/employees/showAll', function (data) {
-        $.each(data, function (key, value) {
-            console.log(value);
-            addEmployeeToTable(value);
+        employees = data;
+        $.each(data, function (id, employee) {
+            addEmployeeToTable(+id, employee);
         });
-
-
     });
 }
 
 //Добавление сотрудника в таблицу
-function addEmployeeToTable(employee) {
-
-    let tr = $('<tr></tr>').attr("id", employee.id);
+function addEmployeeToTable(id, employee) {
+    let date = new Date(employee.dateOfEmployment)
+        .toISOString()
+        .substring(0, 10);
+    let tr = $('<tr></tr>').attr("id", id);
     $('tbody').append(tr);
     tr.append("<td>" + employee.pass + "</td>" +
         "<td>" + employee.name + "</td>" +
         "<td>" + employee.lastName + "</td>" +
-        "<td>" + employee.position + "</td>" +
-        "<td>" + employee.dateOfEmployment + "</td>")
+        "<td>" + positions[employee.positionId] + "</td>" +
+        "<td>" + date + "</td>")
         .append('<td class="withButton"><button class="deleteButton">X</button></td>')
         .append('<td class="withButton"><button class="redactButton">Редактировать</button></td>');
 }
@@ -49,18 +52,18 @@ function popUpHide() {
     $('#popUpContainer').hide();
 }
 
-//Получить коллекцию позиций
-function getPositions() {
+//Добавить позиции в список формы
+function addPositionsToSelectOfPositions() {
     $.getJSON('/positions', function (data) {
-        console.log(data);
-        for (let i = 0; i < data.length; i++){
+        for (let i = 0; i < data.length; i++) {
             addSelectValue(data[i]);
+            positions[data[i].id] = data[i].value;
         }
     });
-
     function addSelectValue(position) {
-        let option = $('<option></option>>')
-            .attr('value', position.id).text(position.value);
+        let option = $('<option></option>')
+            .attr('value', position.id)
+            .text(position.value);
         $('#position').append(option);
     }
 }
@@ -69,8 +72,10 @@ function getPositions() {
 //Кнопка добавления сотрудника
 $(".addButton").click(function () {
     $('input').val(null);
-    $('button.submit').attr('id', '/employees/add');
-    console.log($('button.submit').attr('id'));
+    url = '/employees/add';
+    $('#year').val(new Date().getFullYear());
+    $('#month').val(new Date().getMonth() + 1);
+    $('#day').val(new Date().getDate());
     popUpShow();
 });
 
@@ -83,8 +88,6 @@ $('.refreshButton').click(function () {
 //Кнопка удаления сотрудника
 $('table').on('click', '.deleteButton', function (event) {
     let tr = event.target.parentElement.parentElement;
-
-    console.log(typeof parseInt(tr.id));
     $.ajax({
         url: '/employees/remove',
         data: {id: tr.id},
@@ -100,15 +103,19 @@ $('table').on('click', '.deleteButton', function (event) {
 
 //Кнопка редактирования сотрудника
 $('table').on('click', '.redactButton', function (event) {
+    url = '/employees/edit';
+    let tr = event.target.parentElement.parentElement;
+    id = tr.id;
+    let empl = employees[id];
+    let date = new Date(empl.dateOfEmployment)
+        .toISOString()
+        .substring(0, 10);
+    date = date.split('-');
 
-    $('.submit').attr('id', '/employees/edit');
-    trToRedact = event.target.parentElement.parentElement;
-    let date = trToRedact.children[4].innerText.split('-');
-
-    $('#pass').val(trToRedact.children[0].innerText);
-    $('#name').val(trToRedact.children[1].innerText);
-    $('#lastName').val(trToRedact.children[2].innerText);
-    $('#position').val($('option:contains('+trToRedact.children[3].innerText+')').val());
+    $('#name').val(empl.name);
+    $('#lastName').val(empl.lastName);
+    $('#position').val(empl.positionId);
+    $('#pass').val(empl.pass);
     $('#year').val(date[0]);
     $('#month').val(date[1]);
     $('#day').val(date[2]);
@@ -120,8 +127,8 @@ $('table').on('click', '.redactButton', function (event) {
 $('.escapeButton').click(function () {
     $('input').val(null);
     $('#position').val(0);
-    $('.submit').attr('id', '');
-    trToRedact = undefined;
+    url = null;
+    id = null;
     popUpHide();
 });
 
@@ -131,55 +138,44 @@ $('#getMock').click(function () {
     $('#lastName').val("Сотрудник");
     $('#position').val(0);
     $('#pass').val("A000");
-    $('#year').val(2017);
-    $('#month').val(12);
-    $('#day').val(1);
+    $('#year').val(new Date().getFullYear());
+    $('#month').val(new Date().getMonth() + 1);
+    $('#day').val(new Date().getDate());
 });
 
 //Отправка формы
 $('#popUpForm').submit(function (event) {
     event.preventDefault();
-
-    let urlValue = $('.submit').attr('id');
-
     let date = [
         $('#year').val(),
-        $('#month').val(),
-        $('#day').val()].join('-');
-
+        ($('#month').val() < 10 ? '0' : '') + $('#month').val() ,
+        ($('#day').val() < 10 ? '0' : '') + $('#day').val() ].join('-');
     let employee = {
         name: $('#name').val(),
         lastName: $('#lastName').val(),
         positionId: +$('#position').val(),
         pass: ($('#pass').val()),
-        dateOfEmployment: date,
+        dateOfEmployment: new Date(date).getTime(),
+        id: id
     };
-    if(trToRedact !== undefined){
-        employee['id'] = trToRedact['id'];
-    }
-
-    console.log(employee);
-    console.log(urlValue);
 
     $.ajax({
-        url: urlValue,
+        url: url,
         data: employee,
         type: 'POST'
     })
         .done(function (data) {
-            employee['position']=$('option[value='+employee.positionId+']').text();
-
-            if (urlValue === '/employees/add') {
-                employee['id'] = data;
-                $('.submit').attr('id', '');
-                addEmployeeToTable(employee);
+            if (url === '/employees/add') {
+                addEmployeeToTable(data, employee);
+                employees[data] = employee;
 
             } else {
-                trToRedact.children[0].innerText = employee.pass;
-                trToRedact.children[1].innerText = employee.name;
-                trToRedact.children[2].innerText = employee.lastName;
-                trToRedact.children[3].innerText = employee.position;
-                trToRedact.children[4].innerText = date;
+                tr = $('tr#' + id + '');
+                tr.children()[0].innerText = employee.pass;
+                tr.children()[1].innerText = employee.name;
+                tr.children()[2].innerText = employee.lastName;
+                tr.children()[3].innerText = positions[employee.positionId];
+                tr.children()[4].innerText = date;
             }
         })
         .fail(function () {

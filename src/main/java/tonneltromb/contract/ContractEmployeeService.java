@@ -24,7 +24,6 @@ public class ContractEmployeeService implements ContractEmployeeServiceInterface
                 contractEmployee.getPositionId(),
                 contractEmployee.getPass(),
                 contractEmployee.getDateOfEmployment());
-        repository.addEmployee(employee);
         return repository.addEmployee(employee);
     }
 
@@ -55,7 +54,7 @@ public class ContractEmployeeService implements ContractEmployeeServiceInterface
                     employee.getLastName(),
                     employee.getPositionId(),
                     employee.getPass(),
-                    employee.getDateOfEmployment()
+                    employee.getDateOfEmployment().getTime()
             );
             contractEmployeesList.put(employee.getId(),contractEmployee);
         }
@@ -70,7 +69,7 @@ public class ContractEmployeeService implements ContractEmployeeServiceInterface
                 employee.getLastName(),
                 employee.getPositionId(),
                 employee.getPass(),
-                employee.getDateOfEmployment()
+                employee.getDateOfEmployment().getTime()
         );
         return contractEmployee;
     }

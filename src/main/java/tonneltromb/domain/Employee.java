@@ -148,7 +148,7 @@ public class Employee implements Comparable<Employee>, Serializable {
     public String toString() {
         return "Сотрудник: " + lastName + " " + name +
                 ", номер пропуска: " + pass +
-                ", занимаемая должность: " + position.getValue() +
+                ", занимаемая должность: " + positionId +
                 ", дата трудоустройства(год - мес - день): " + dateOfEmployment;
     }
 

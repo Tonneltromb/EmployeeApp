@@ -10,15 +10,18 @@ public class ContractEmployee {
     private String pass;
     private Date dateOfEmployment;
 
-    public ContractEmployee() {
-    }
+    public ContractEmployee() {}
 
-    public ContractEmployee(String name, String lastName, int positionId, String pass, Date dateOfEmployment) {
+    public ContractEmployee(String name,
+                            String lastName,
+                            int positionId,
+                            String pass,
+                            long dateOfEmployment) {
         this.name = name;
         this.lastName = lastName;
         this.positionId = positionId;
         this.pass = pass;
-        this.dateOfEmployment = dateOfEmployment;
+        this.dateOfEmployment = new Date(dateOfEmployment);
     }
 
     public String getName() {
@@ -57,8 +60,8 @@ public class ContractEmployee {
         return dateOfEmployment;
     }
 
-    public void setDateOfEmployment(Date dateOfEmployment) {
-        this.dateOfEmployment = dateOfEmployment;
+    public void setDateOfEmployment(long dateOfEmployment) {
+        this.dateOfEmployment = new Date(dateOfEmployment);
     }
 
     @Override
