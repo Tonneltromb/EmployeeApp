@@ -1,4 +1,4 @@
-package tonneltromb.domain;
+package tonneltromb.model;
 
 import javax.persistence.*;
 import java.io.Serializable;

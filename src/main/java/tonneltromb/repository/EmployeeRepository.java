@@ -4,8 +4,8 @@ package tonneltromb.repository;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Repository;
-import tonneltromb.domain.Employee;
-import tonneltromb.domain.Position;
+import tonneltromb.model.Employee;
+import tonneltromb.model.Position;
 import tonneltromb.utils.HibernateSessionFactory;
 
 import javax.persistence.TypedQuery;

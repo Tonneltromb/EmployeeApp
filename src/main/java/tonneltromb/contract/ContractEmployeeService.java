@@ -2,8 +2,8 @@ package tonneltromb.contract;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import tonneltromb.domain.Employee;
-import tonneltromb.domain.Position;
+import tonneltromb.model.Employee;
+import tonneltromb.model.Position;
 import tonneltromb.repository.EmployeeRepository;
 
 import java.util.HashMap;
@@ -13,8 +13,16 @@ import java.util.Map;
 @Service
 public class ContractEmployeeService implements ContractEmployeeServiceInterface {
 
-    @Autowired
     private EmployeeRepository repository;
+
+    public EmployeeRepository getRepository() {
+        return repository;
+    }
+
+    @Autowired
+    public void setRepository(EmployeeRepository repository) {
+        this.repository = repository;
+    }
 
     @Override
     public int addEmployee(ContractEmployee contractEmployee) {

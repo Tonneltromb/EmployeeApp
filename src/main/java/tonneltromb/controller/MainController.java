@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import tonneltromb.contract.ContractEmployee;
 import tonneltromb.contract.ContractEmployeeService;
-import tonneltromb.domain.Position;
+import tonneltromb.model.Position;
 
 import java.util.List;
 import java.util.Map;
@@ -16,8 +16,16 @@ import java.util.Map;
 @RequestMapping(value = "/")
 public class MainController {
 
-    @Autowired
     private ContractEmployeeService service;
+
+    public ContractEmployeeService getService() {
+        return service;
+    }
+
+    @Autowired
+    public void setService(ContractEmployeeService service) {
+        this.service = service;
+    }
 
     @RequestMapping(
             value = "/employees/showAll",
@@ -32,7 +40,6 @@ public class MainController {
             method = RequestMethod.POST,
             produces = "application/json")
     public int addEmployee(ContractEmployee contractEmployee) {
-        System.out.println(contractEmployee);
         return service.addEmployee(contractEmployee);
     }
 
