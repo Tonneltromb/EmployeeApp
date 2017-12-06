@@ -15,7 +15,7 @@ public class Employee implements Comparable<Employee>, Serializable {
     private int id;
 
     @Column(name = "name")
-    private String name;
+    private String firstName;
 
     @Column(name = "last_name")
     private String lastName;
@@ -37,9 +37,9 @@ public class Employee implements Comparable<Employee>, Serializable {
     public Employee() {
     }
 
-    public Employee(String name, String lastName, int positionId, String pass,
+    public Employee(String firstName, String lastName, int positionId, String pass,
                     String dateOfEmployment) throws ParseException {
-        this.name = name;
+        this.firstName = firstName;
         this.lastName = lastName;
         this.positionId = positionId;
         this.pass = pass;
@@ -47,9 +47,9 @@ public class Employee implements Comparable<Employee>, Serializable {
                 .parse(dateOfEmployment);
     }
 
-    public Employee(String name, String lastName, int positionId, String pass,
+    public Employee(String firstName, String lastName, int positionId, String pass,
                     Date dateOfEmployment) {
-        this.name = name;
+        this.firstName = firstName;
         this.lastName = lastName;
         this.pass = pass;
         this.dateOfEmployment = dateOfEmployment;
@@ -60,8 +60,8 @@ public class Employee implements Comparable<Employee>, Serializable {
         return id;
     }
 
-    public String getName() {
-        return name;
+    public String getFirstName() {
+        return firstName;
     }
 
     public String getLastName() {
@@ -89,8 +89,8 @@ public class Employee implements Comparable<Employee>, Serializable {
         this.id = id;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
     public void setLastName(String lastName) {
@@ -124,14 +124,14 @@ public class Employee implements Comparable<Employee>, Serializable {
         if (!pass.equals(employee.pass)) return false;
         if (!dateOfEmployment.equals(employee.dateOfEmployment)) return false;
         if (!lastName.equalsIgnoreCase(employee.lastName)) return false;
-        if (!name.equalsIgnoreCase(employee.name)) return false;
+        if (!firstName.equalsIgnoreCase(employee.firstName)) return false;
 
         return position.equals(employee.position);
     }
 
     @Override
     public int hashCode() {
-        int result = id + position.hashCode() + name.hashCode();
+        int result = id + position.hashCode() + firstName.hashCode();
         result = 31 * result + lastName.hashCode();
         result = 31 * result + position.hashCode();
         result = 31 * result + dateOfEmployment.hashCode();
@@ -141,12 +141,12 @@ public class Employee implements Comparable<Employee>, Serializable {
     @Override
     public int compareTo(Employee that) {
         int result = lastName.compareTo(that.lastName);
-        return result != 0 ? result : name.compareTo(that.name);
+        return result != 0 ? result : firstName.compareTo(that.firstName);
     }
 
     @Override
     public String toString() {
-        return "Сотрудник: " + lastName + " " + name +
+        return "Сотрудник: " + lastName + " " + firstName +
                 ", номер пропуска: " + pass +
                 ", занимаемая должность: " + positionId +
                 ", дата трудоустройства(год - мес - день): " + dateOfEmployment;
