@@ -11,6 +11,7 @@ import java.util.Date;
 public class Employee implements Comparable<Employee>, Serializable {
 
     //comment
+    //comment2
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
