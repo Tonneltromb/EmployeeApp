@@ -9,6 +9,8 @@ import java.util.Date;
 @Entity
 @Table(name = "employees")
 public class Employee implements Comparable<Employee>, Serializable {
+
+    //comment
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
