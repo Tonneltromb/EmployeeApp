@@ -14,17 +14,17 @@ public class Position implements Serializable {
     private int id;
 
     @Column(name = "value")
-    private String value;
+    private String name;
 
 
     public Position(){
         id = 0;
-        value = "не определено";
+        name = "не определено";
     }
 
-    public Position(int id, String value){
+    public Position(int id, String name){
         this.id = id;
-        this.value = value;
+        this.name = name;
     }
 
     public int getId() {
@@ -35,17 +35,17 @@ public class Position implements Serializable {
         this.id = id;
     }
 
-    public String getValue() {
-        return value;
+    public String getName() {
+        return name;
     }
 
-    public void setValue(String value) {
-        this.value = value;
+    public void setName(String name) {
+        this.name = name;
     }
 
     @Override
     public String toString() {
-        return "Должность: " + value + "," + " id в базе: " + id;
+        return "Должность: " + name + "," + " id в базе: " + id;
     }
 
     @Override
@@ -54,11 +54,11 @@ public class Position implements Serializable {
         if (that == null || getClass() != that.getClass()) return false;
         Position position = (Position) that;
         return id == position.id &&
-                Objects.equals(value, position.value);
+                Objects.equals(name, position.name);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, value);
+        return Objects.hash(id, name);
     }
 }
