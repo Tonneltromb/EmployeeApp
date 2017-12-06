@@ -140,8 +140,10 @@ public class Employee implements Comparable<Employee>, Serializable {
 
     @Override
     public int compareTo(Employee that) {
-        int result = lastName.compareTo(that.lastName);
-        return result != 0 ? result : firstName.compareTo(that.firstName);
+        String firstLastName = lastName;
+        String secondLastName = that.lastName;
+        int result = firstLastName.compareTo(secondLastName); // Comparing of surnames
+        return result != 0 ? result : firstName.compareTo(that.firstName);  // Comparing of firstnames
     }
 
     @Override
