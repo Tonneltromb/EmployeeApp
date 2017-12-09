@@ -57,13 +57,13 @@ function addPositionsToSelectOfPositions() {
     $.getJSON('/positions', function (data) {
         for (let i = 0; i < data.length; i++) {
             addSelectValue(data[i]);
-            positions[data[i].id] = data[i].value;
+            positions[data[i].id] = data[i].name;
         }
     });
     function addSelectValue(position) {
         let option = $('<option></option>')
             .attr('value', position.id)
-            .text(position.value);
+            .text(position.name);
         $('#position').append(option);
     }
 }
