@@ -5,7 +5,6 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Repository;
 import tonneltromb.model.Employee;
-import tonneltromb.model.Position;
 import tonneltromb.utils.HibernateSessionFactory;
 
 import javax.persistence.TypedQuery;
@@ -13,7 +12,7 @@ import java.util.List;
 
 
 @Repository
-public class EmployeeRepository implements EmployeeRepositoryServiceInterface<Employee>, PositionRepositoryServiceInterface<Position> {
+public class EmployeeRepository implements EmployeeRepositoryInterface {
 
     private SessionFactory sessionFactory =
             HibernateSessionFactory.getSessionFactory();
@@ -22,7 +21,6 @@ public class EmployeeRepository implements EmployeeRepositoryServiceInterface<Em
         Session session = sessionFactory.openSession();
         return session.find(Employee.class, id);
     }
-
 
     public int addEmployee(Employee employee) {
         Session session = sessionFactory.openSession();
@@ -56,12 +54,6 @@ public class EmployeeRepository implements EmployeeRepositoryServiceInterface<Em
         return query.getResultList();
     }
 
-    public List<Position> getPositionsList() {
-        Session session = sessionFactory.openSession();
-        TypedQuery<Position> query = session
-                .createQuery("from Position", Position.class);
-        return query.getResultList();
-    }
 }
 
 
