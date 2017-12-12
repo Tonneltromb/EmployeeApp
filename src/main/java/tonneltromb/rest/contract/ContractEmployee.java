@@ -4,6 +4,7 @@ import java.util.Date;
 
 public class ContractEmployee {
 
+    private int id;
     private String name;
     private String lastName;
     private int positionId;
@@ -12,16 +13,26 @@ public class ContractEmployee {
 
     public ContractEmployee() {}
 
-    public ContractEmployee(String name,
+    public ContractEmployee(int id,
+                            String name,
                             String lastName,
                             int positionId,
                             String pass,
                             long dateOfEmployment) {
+        this.id=id;
         this.name = name;
         this.lastName = lastName;
         this.positionId = positionId;
         this.pass = pass;
         this.dateOfEmployment = new Date(dateOfEmployment);
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -67,6 +78,7 @@ public class ContractEmployee {
     @Override
     public String toString() {
         return "ContractEmployee{" +
+                "id='" + id + '\'' +
                 "name='" + name + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", positionId=" + positionId +

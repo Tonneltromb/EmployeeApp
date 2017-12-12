@@ -4,7 +4,7 @@ import tonneltromb.domain.Employee;
 
 import java.util.List;
 
-public interface EmployeeRepositoryInterface {
+public interface EmployeeRepositoryInterface{
 
     Employee getEmployeeById(int value);
 

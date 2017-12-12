@@ -24,22 +24,27 @@ public class EmployeeRepository implements EmployeeRepositoryInterface {
 
     public int addEmployee(Employee employee) {
         Session session = sessionFactory.openSession();
+        session.getTransaction().begin();
         session.save(employee);
+        session.getTransaction().commit();
         return employee.getId();
     }
 
-
     public void editEmployee(Employee employee) {
         Session session = sessionFactory.openSession();
+        session.getTransaction().begin();
         session.update(employee);
+        session.getTransaction().commit();
     }
 
     public void removeEmployeeById(int id) {
         Session session = sessionFactory.openSession();
+        session.getTransaction().begin();
         session
                 .createQuery("delete Employee where id=:id")
                 .setParameter("id", id)
                 .executeUpdate();
+        session.getTransaction().commit();
     }
 
     public List<Employee> getAllEmployees() {

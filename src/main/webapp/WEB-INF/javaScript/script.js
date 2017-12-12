@@ -3,9 +3,10 @@ let url;
 let positions = {};
 let employees = {};
 
+addPositionsToSelectOfPositions();
+
 $(document).ready(function () {
     popUpHide();
-    addPositionsToSelectOfPositions();
     showEmployees();
     $('input').attr('required', 'true');
     $('#pass').attr('pattern', '[A-Z][0-9][0-9][0-9]');
@@ -19,21 +20,19 @@ $(document).ready(function () {
 //Функция отрисовки tbody таблицы сотрудников
 function showEmployees() {
     $.getJSON('/employees/showAll', function (data) {
-        employees = data;
         $.each(data, function (id, employee) {
-            addEmployeeToTable(+id, employee);
+            employees[employee.id] = employee;
+            addEmployeeToTable(employee);
         });
-    }).fail(function (data) {
-        alert("dfsdfsdfsfd")
     });
 }
 
 //Добавление сотрудника в таблицу
-function addEmployeeToTable(id, employee) {
+function addEmployeeToTable(employee) {
     let date = new Date(employee.dateOfEmployment)
         .toISOString()
         .substring(0, 10);
-    let tr = $('<tr></tr>').attr("id", id);
+    let tr = $('<tr></tr>').attr("id", employee.id);
     $('tbody').append(tr);
     tr.append("<td>" + employee.pass + "</td>" +
         "<td>" + employee.name + "</td>" +
@@ -93,16 +92,12 @@ $('table').on('click', '.deleteButton', function (event) {
     $.ajax({
         url: '/employees/remove',
         data: {id: tr.id},
-        type: 'GET',
-        error: function (req, status, error) {
-            console.log(req, status, error);
-        }
+        type: 'GET'
     })
         .done(function () {
             tr.remove();
         })
-        .fail(function (req, status, error) {
-            console.log(req, status, error);
+        .fail(function () {
             alert('Что-то пошло не так');
         })
 });
@@ -112,16 +107,16 @@ $('table').on('click', '.redactButton', function (event) {
     url = '/employees/edit';
     let tr = event.target.parentElement.parentElement;
     id = tr.id;
-    let empl = employees[id];
-    let date = new Date(empl.dateOfEmployment)
+    let employee = employees[id];
+    let date = new Date(employee.dateOfEmployment)
         .toISOString()
         .substring(0, 10);
     date = date.split('-');
 
-    $('#name').val(empl.name);
-    $('#lastName').val(empl.lastName);
-    $('#position').val(empl.positionId);
-    $('#pass').val(empl.pass);
+    $('#name').val(employee.name);
+    $('#lastName').val(employee.lastName);
+    $('#position').val(employee.positionId);
+    $('#pass').val(employee.pass);
     $('#year').val(date[0]);
     $('#month').val(date[1]);
     $('#day').val(date[2]);
@@ -172,7 +167,7 @@ $('#popUpForm').submit(function (event) {
     })
         .done(function (data) {
             if (url === '/employees/add') {
-                addEmployeeToTable(data, employee);
+                addEmployeeToTable(employee);
                 employees[data] = employee;
 
             } else {
@@ -184,7 +179,7 @@ $('#popUpForm').submit(function (event) {
                 tr.children()[4].innerText = date;
             }
         })
-        .fail(function (data) {
+        .fail(function () {
             alert('Что-то пошло не так');
         })
         .always(function () {

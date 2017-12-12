@@ -9,9 +9,7 @@ import tonneltromb.repository.EmployeeRepositoryInterface;
 import tonneltromb.repository.PositionRepositoryInterface;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class EmployeeService implements EmployeeServiceInterface {
@@ -52,6 +50,7 @@ public class EmployeeService implements EmployeeServiceInterface {
     @Override
     public void editEmployee(ContractEmployee contractEmployee) {
         Employee employee = contractToModel(contractEmployee);
+        employee.setId(contractEmployee.getId());
         employeeRepository.editEmployee(employee);
     }
 
@@ -79,6 +78,7 @@ public class EmployeeService implements EmployeeServiceInterface {
 
     private ContractEmployee modelToContract(Employee model){
         return new ContractEmployee(
+                model.getId(),
                 model.getFirstName(),
                 model.getLastName(),
                 model.getPositionId(),

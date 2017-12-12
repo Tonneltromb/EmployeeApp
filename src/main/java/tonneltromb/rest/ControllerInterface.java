@@ -1,6 +1,7 @@
 package tonneltromb.rest;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RestController;
 import tonneltromb.rest.contract.ContractEmployee;
 import tonneltromb.domain.Position;
 
@@ -11,7 +12,7 @@ public interface ControllerInterface {
 
     ResponseEntity<List<ContractEmployee>> getEmployees();
 
-    ResponseEntity removeEmployee(int id);
+    void removeEmployee(int id);
 
     ResponseEntity<Integer> addEmployee(ContractEmployee contractEmployee);
 
