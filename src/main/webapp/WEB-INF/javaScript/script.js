@@ -23,6 +23,8 @@ function showEmployees() {
         $.each(data, function (id, employee) {
             addEmployeeToTable(+id, employee);
         });
+    }).fail(function (data) {
+        alert("dfsdfsdfsfd")
     });
 }
 
@@ -91,12 +93,16 @@ $('table').on('click', '.deleteButton', function (event) {
     $.ajax({
         url: '/employees/remove',
         data: {id: tr.id},
-        type: 'GET'
+        type: 'GET',
+        error: function (req, status, error) {
+            console.log(req, status, error);
+        }
     })
         .done(function () {
             tr.remove();
         })
-        .fail(function () {
+        .fail(function (req, status, error) {
+            console.log(req, status, error);
             alert('Что-то пошло не так');
         })
 });
@@ -178,7 +184,7 @@ $('#popUpForm').submit(function (event) {
                 tr.children()[4].innerText = date;
             }
         })
-        .fail(function () {
+        .fail(function (data) {
             alert('Что-то пошло не так');
         })
         .always(function () {

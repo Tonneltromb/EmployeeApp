@@ -56,7 +56,7 @@ public class MainController implements ControllerInterface {
     @RequestMapping(value = "/employees/remove", method = RequestMethod.GET)
     public ResponseEntity removeEmployee(@RequestParam int id) {
         service.removeEmployeeById(id);
-        return null;
+        return ResponseEntity.ok(HttpStatus.OK);
     }
 
     @Override

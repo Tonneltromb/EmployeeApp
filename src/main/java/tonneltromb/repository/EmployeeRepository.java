@@ -24,9 +24,7 @@ public class EmployeeRepository implements EmployeeRepositoryInterface {
 
     public int addEmployee(Employee employee) {
         Session session = sessionFactory.openSession();
-        session.getTransaction().begin();
         session.save(employee);
-        session.getTransaction().commit();
         return employee.getId();
     }
 
