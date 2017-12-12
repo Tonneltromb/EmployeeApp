@@ -12,8 +12,8 @@
         <property name="current_session_context_class">thread</property>
         <property name="hbm2ddl.auto">update</property>
 
-        <mapping class="tonneltromb.model.Employee"/>
-        <mapping class="tonneltromb.model.Position"/>
+        <mapping class="tonneltromb.domain.Employee"/>
+        <mapping class="tonneltromb.domain.Position"/>
         
         
     </session-factory>

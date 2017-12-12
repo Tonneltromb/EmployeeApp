@@ -1,13 +1,14 @@
-package tonneltromb.contract;
+package tonneltromb.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import tonneltromb.model.Employee;
-import tonneltromb.model.Position;
-import tonneltromb.repository.EmployeeRepository;
+import tonneltromb.rest.contract.ContractEmployee;
+import tonneltromb.domain.Employee;
+import tonneltromb.domain.Position;
 import tonneltromb.repository.EmployeeRepositoryInterface;
 import tonneltromb.repository.PositionRepositoryInterface;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -49,19 +50,18 @@ public class EmployeeService implements EmployeeServiceInterface {
     }
 
     @Override
-    public void editEmployee(ContractEmployee contractEmployee, int id) {
+    public void editEmployee(ContractEmployee contractEmployee) {
         Employee employee = contractToModel(contractEmployee);
-        employee.setId(id);
         employeeRepository.editEmployee(employee);
     }
 
     @Override
-    public Map<Integer, ContractEmployee> getEmployeesCollection() {
+    public List<ContractEmployee> getEmployeesCollection() {
         List<Employee> employees = employeeRepository.getAllEmployees();
-        Map<Integer,ContractEmployee> contractEmployeesList = new HashMap<>();
+        List<ContractEmployee> contractEmployeesList = new ArrayList<>();
         for (Employee employee : employees){
             ContractEmployee contractEmployee = modelToContract(employee);
-            contractEmployeesList.put(employee.getId(),contractEmployee);
+            contractEmployeesList.add(contractEmployee);
         }
         return contractEmployeesList;
     }

@@ -4,7 +4,8 @@ package tonneltromb.repository;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Repository;
-import tonneltromb.model.Employee;
+import org.springframework.transaction.annotation.Transactional;
+import tonneltromb.domain.Employee;
 import tonneltromb.utils.HibernateSessionFactory;
 
 import javax.persistence.TypedQuery;
@@ -22,6 +23,7 @@ public class EmployeeRepository implements EmployeeRepositoryInterface {
         return session.find(Employee.class, id);
     }
 
+
     public int addEmployee(Employee employee) {
         Session session = sessionFactory.openSession();
         session.getTransaction().begin();
@@ -30,21 +32,18 @@ public class EmployeeRepository implements EmployeeRepositoryInterface {
         return employee.getId();
     }
 
+
     public void editEmployee(Employee employee) {
         Session session = sessionFactory.openSession();
-        session.getTransaction().begin();
         session.update(employee);
-        session.getTransaction().commit();
     }
 
     public void removeEmployeeById(int id) {
         Session session = sessionFactory.openSession();
-        session.getTransaction().begin();
         session
                 .createQuery("delete Employee where id=:id")
                 .setParameter("id", id)
                 .executeUpdate();
-        session.getTransaction().commit();
     }
 
     public List<Employee> getAllEmployees() {

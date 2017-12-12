@@ -1,6 +1,6 @@
 package tonneltromb.repository;
 
-import tonneltromb.model.Employee;
+import tonneltromb.domain.Employee;
 
 import java.util.List;
 

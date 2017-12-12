@@ -1,4 +1,4 @@
-package tonneltromb.contract;
+package tonneltromb.rest.contract;
 
 import java.util.Date;
 

@@ -1,6 +1,6 @@
 package tonneltromb.repository;
 
-import tonneltromb.model.Position;
+import tonneltromb.domain.Position;
 
 import java.util.List;
 
