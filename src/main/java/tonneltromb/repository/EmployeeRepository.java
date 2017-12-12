@@ -4,7 +4,6 @@ package tonneltromb.repository;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 import tonneltromb.domain.Employee;
 import tonneltromb.utils.HibernateSessionFactory;
 
@@ -22,7 +21,6 @@ public class EmployeeRepository implements EmployeeRepositoryInterface {
         Session session = sessionFactory.openSession();
         return session.find(Employee.class, id);
     }
-
 
     public int addEmployee(Employee employee) {
         Session session = sessionFactory.openSession();
