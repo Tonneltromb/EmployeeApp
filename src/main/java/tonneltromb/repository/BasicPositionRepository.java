@@ -11,7 +11,7 @@ import javax.persistence.TypedQuery;
 import java.util.List;
 
 @Repository
-public class PositionRepository implements PositionRepositoryInterface {
+public class BasicPositionRepository implements PositionRepositoryInterface {
 
     private SessionFactory sessionFactory =
             HibernateSessionFactory.getSessionFactory();

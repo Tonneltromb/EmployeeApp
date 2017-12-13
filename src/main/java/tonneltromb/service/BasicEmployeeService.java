@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class EmployeeService implements EmployeeServiceInterface {
+public class BasicEmployeeService implements EmployeeServiceInterface {
 
     private EmployeeRepositoryInterface employeeRepository;
 

@@ -4,6 +4,7 @@ package tonneltromb.repository;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import tonneltromb.domain.Employee;
 import tonneltromb.utils.HibernateSessionFactory;
 
@@ -12,7 +13,8 @@ import java.util.List;
 
 
 @Repository
-public class EmployeeRepository implements EmployeeRepositoryInterface {
+@Transactional
+public class BasicEmployeeRepository implements EmployeeRepositoryInterface {
 
     private SessionFactory sessionFactory =
             HibernateSessionFactory.getSessionFactory();
@@ -21,30 +23,30 @@ public class EmployeeRepository implements EmployeeRepositoryInterface {
         Session session = sessionFactory.openSession();
         return session.find(Employee.class, id);
     }
-
+@Transactional
     public int addEmployee(Employee employee) {
         Session session = sessionFactory.openSession();
-        session.getTransaction().begin();
+//        session.getTransaction().begin();
         session.save(employee);
-        session.getTransaction().commit();
+//        session.getTransaction().commit();
         return employee.getId();
     }
-
+@Transactional
     public void editEmployee(Employee employee) {
         Session session = sessionFactory.openSession();
-        session.getTransaction().begin();
+//        session.getTransaction().begin();
         session.update(employee);
-        session.getTransaction().commit();
+//        session.getTransaction().commit();
     }
-
+@Transactional
     public void removeEmployeeById(int id) {
         Session session = sessionFactory.openSession();
-        session.getTransaction().begin();
+       // session.getTransaction().begin();
         session
                 .createQuery("delete Employee where id=:id")
                 .setParameter("id", id)
                 .executeUpdate();
-        session.getTransaction().commit();
+       // session.getTransaction().commit();
     }
 
     public List<Employee> getAllEmployees() {
