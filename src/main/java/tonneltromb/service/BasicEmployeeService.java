@@ -56,8 +56,8 @@ public class BasicEmployeeService implements EmployeeServiceInterface {
     }
 
     @Override
-    public List<ContractEmployee> getEmployeesCollection() {
-        List<Employee> employees = employeeRepository.getAllEmployees();
+    public List<ContractEmployee> getEmployees() {
+        List<Employee> employees = employeeRepository.getEmployees();
         List<ContractEmployee> contractEmployeesList = new ArrayList<>();
         for (Employee employee : employees){
             ContractEmployee contractEmployee = modelToContract(employee);
@@ -74,7 +74,7 @@ public class BasicEmployeeService implements EmployeeServiceInterface {
 
     @Override
     public List<Position> getPositions() {
-        return positionRepository.getPositionsList();
+        return positionRepository.getPositions();
     }
 
     private ContractEmployee modelToContract(Employee model){

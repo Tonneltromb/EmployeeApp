@@ -1,58 +1,46 @@
 package tonneltromb.repository;
 
-
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import tonneltromb.domain.Employee;
-import tonneltromb.utils.HibernateSessionFactory;
-
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import java.util.List;
 
 @Repository
+@Transactional
 public class BasicEmployeeRepository implements EmployeeRepositoryInterface {
 
-    private SessionFactory sessionFactory =
-            HibernateSessionFactory.getSessionFactory();
+private EntityManager manager;
 
-    public Employee getEmployeeById(int id) {
-        Session session = sessionFactory.openSession();
-        return session.find(Employee.class, id);
+    @PersistenceContext
+    public void setEntityManager(final EntityManager entityManager) {
+        this.manager = entityManager;
     }
 
-    @Transactional
+    public Employee getEmployeeById(int id) {
+       return manager.find(Employee.class, id);
+    }
+
     public int addEmployee(Employee employee) {
-        Session session = sessionFactory.openSession();
-//        session.getTransaction().begin();
-        session.save(employee);
-//        session.getTransaction().commit();
+        manager.persist(employee);
         return employee.getId();
     }
 
-    @Transactional
     public void editEmployee(Employee employee) {
-        Session session = sessionFactory.openSession();
-//        session.getTransaction().begin();
-        session.update(employee);
-//        session.getTransaction().commit();
+        manager.merge(employee);
     }
 
-    @Transactional
     public void removeEmployeeById(int id) {
-        Session session = sessionFactory.openSession();
-//        session.getTransaction().begin();
-        session
+        manager
                 .createQuery("delete Employee where id=:id")
                 .setParameter("id", id)
                 .executeUpdate();
-//        session.getTransaction().commit();
     }
 
-    public List<Employee> getAllEmployees() {
-        Session session = sessionFactory.openSession();
-        TypedQuery<Employee> query = session
+    public List<Employee> getEmployees() {
+        TypedQuery<Employee> query = manager
                 .createQuery("from Employee", Employee.class);
         return query.getResultList();
     }

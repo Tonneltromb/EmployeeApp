@@ -161,7 +161,6 @@ $('#getMock').click(function () {
 
 //Показать окно с ошибкой
 function showError(jqXHR) {
-    console.log(jqXHR.status);
     $('#errorPanel p').text('Ошибка сервера! Код ошибки: ' + jqXHR.status);
     $('#errorPanel').show();
 }
@@ -199,7 +198,6 @@ $('#popUpForm').submit(function (event) {
     })
         .done(function (data) {
             if (url === '/employees/add') {
-                console.log(employee);
                 addEmployeeToTable(employee);
                 employees[data] = employee;
             } else {

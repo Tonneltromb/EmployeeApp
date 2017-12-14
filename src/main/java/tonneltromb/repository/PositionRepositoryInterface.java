@@ -5,5 +5,5 @@ import java.util.List;
 
 public interface PositionRepositoryInterface {
 
-    List<Position> getPositionsList();
+    List<Position> getPositions();
 }

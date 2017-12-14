@@ -21,7 +21,7 @@ public class BasicPositionRepository implements PositionRepositoryInterface {
         return session.find(Employee.class, id);
     }
 
-    public List<Position> getPositionsList() {
+    public List<Position> getPositions() {
         Session session = sessionFactory.openSession();
         TypedQuery<Position> query = session
                 .createQuery("from Position", Position.class);

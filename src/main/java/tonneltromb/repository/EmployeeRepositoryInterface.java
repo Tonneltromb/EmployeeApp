@@ -14,5 +14,5 @@ public interface EmployeeRepositoryInterface{
 
     void removeEmployeeById(int value);
 
-    List<Employee> getAllEmployees();
+    List<Employee> getEmployees();
 }

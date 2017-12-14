@@ -12,6 +12,6 @@ public interface EmployeeServiceInterface {
     void removeEmployeeById(int id);
     void editEmployee(ContractEmployee contractEmployee);
     ContractEmployee getEmployeeById(int id);
-    List<ContractEmployee> getEmployeesCollection();
+    List<ContractEmployee> getEmployees();
     List<Position> getPositions();
 }

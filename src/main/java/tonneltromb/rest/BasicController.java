@@ -27,7 +27,7 @@ public class BasicController implements ControllerInterface {
 
     @Override
     public ResponseEntity<List<ContractEmployee>> getEmployees() {
-        List<ContractEmployee> list = service.getEmployeesCollection();
+        List<ContractEmployee> list = service.getEmployees();
         if (list == null) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
