@@ -8,9 +8,10 @@ import org.springframework.web.bind.annotation.RestController;
 import tonneltromb.rest.contract.ContractEmployee;
 import tonneltromb.service.EmployeeServiceInterface;
 import tonneltromb.domain.Position;
+
 import java.util.List;
 
-
+@RestController
 public class BasicController implements ControllerInterface {
 
     private EmployeeServiceInterface service;
@@ -34,20 +35,33 @@ public class BasicController implements ControllerInterface {
     }
 
     @Override
-    public ResponseEntity<Integer> addEmployee(ContractEmployee contractEmployee) {
-        return new ResponseEntity<>(service.addEmployee(contractEmployee),HttpStatus.OK);
+    public ResponseEntity addEmployee(ContractEmployee contractEmployee) {
+        try {
+            return ResponseEntity.ok(service.addEmployee(contractEmployee));
+        } catch (Exception e) {
+            return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @Override
-    public ResponseEntity editEmployee(ContractEmployee contractEmployee) {
-        service.editEmployee(contractEmployee);
-        return null;
+    public ResponseEntity editEmployee(ContractEmployee contractEmployee, @RequestParam int id) {
+        try {
+            contractEmployee.setId(id);
+            service.editEmployee(contractEmployee);
+            return new ResponseEntity(HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @Override
     public ResponseEntity removeEmployee(@RequestParam int id) {
-        service.removeEmployeeById(id);
-        return null;
+        try {
+            service.removeEmployeeById(id);
+            return new ResponseEntity(HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @Override

@@ -3,10 +3,11 @@ let url;
 let positions = {};
 let employees = {};
 
-addPositionsToSelectOfPositions();
 
 $(document).ready(function () {
     popUpHide();
+    addPositionsToSelectOfPositions();
+    hideErrorPanel();
     showEmployees();
     $('input').attr('required', 'true');
     $('#pass').attr('pattern', '[A-Z][0-9][0-9][0-9]');
@@ -29,9 +30,7 @@ function showEmployees() {
 
 //Добавление сотрудника в таблицу
 function addEmployeeToTable(employee) {
-    let date = new Date(employee.dateOfEmployment)
-        .toISOString()
-        .substring(0, 10);
+    let date = dateConverter(employee.dateOfEmployment);
     let tr = $('<tr></tr>').attr("id", employee.id);
     $('tbody').append(tr);
     tr.append("<td>" + employee.pass + "</td>" +
@@ -41,6 +40,21 @@ function addEmployeeToTable(employee) {
         "<td>" + date + "</td>")
         .append('<td class="withButton"><button class="deleteButton">X</button></td>')
         .append('<td class="withButton"><button class="redactButton">Редактировать</button></td>');
+}
+
+//Конвертер даты в формат yyyy-mm-dd
+function dateConverter(dateValue) {
+    let date = new Date(dateValue);
+    let year = date.getFullYear();
+    let month = date.getMonth() + 1;
+    if (month < 10) {
+        month = '0' + month;
+    }
+    let day = date.getDate();
+    if (day < 10) {
+        day = '0' + day;
+    }
+    return year + '-' + month + '-' + day;
 }
 
 //Показать окно с формой
@@ -61,6 +75,7 @@ function addPositionsToSelectOfPositions() {
             positions[data[i].id] = data[i].name;
         }
     });
+
     function addSelectValue(position) {
         let option = $('<option></option>')
             .attr('value', position.id)
@@ -72,6 +87,7 @@ function addPositionsToSelectOfPositions() {
 /*Обработчики кнопок*/
 //Кнопка добавления сотрудника
 $(".addButton").click(function () {
+    hideErrorPanel();
     $('input').val(null);
     url = '/employees/add';
     $('#year').val(new Date().getFullYear());
@@ -83,6 +99,7 @@ $(".addButton").click(function () {
 //Кнопка обновления
 $('.refreshButton').click(function () {
     $('tbody tr').remove();
+    hideErrorPanel();
     showEmployees();
 });
 
@@ -97,29 +114,27 @@ $('table').on('click', '.deleteButton', function (event) {
         .done(function () {
             tr.remove();
         })
-        .fail(function () {
-            alert('Что-то пошло не так');
+        .fail(function (jqXHR) {
+            showError(jqXHR);
         })
 });
 
 //Кнопка редактирования сотрудника
 $('table').on('click', '.redactButton', function (event) {
+    hideErrorPanel();
     url = '/employees/edit';
     let tr = event.target.parentElement.parentElement;
     id = tr.id;
     let employee = employees[id];
-    let date = new Date(employee.dateOfEmployment)
-        .toISOString()
-        .substring(0, 10);
-    date = date.split('-');
+    let date = new Date(employee.dateOfEmployment);
 
     $('#name').val(employee.name);
     $('#lastName').val(employee.lastName);
     $('#position').val(employee.positionId);
     $('#pass').val(employee.pass);
-    $('#year').val(date[0]);
-    $('#month').val(date[1]);
-    $('#day').val(date[2]);
+    $('#year').val(date.getFullYear());
+    $('#month').val(date.getMonth() + 1);
+    $('#day').val(date.getDate());
 
     popUpShow();
 });
@@ -129,7 +144,7 @@ $('.escapeButton').click(function () {
     $('input').val(null);
     $('#position').val(0);
     url = null;
-    id = null;
+    id = undefined;
     popUpHide();
 });
 
@@ -144,13 +159,30 @@ $('#getMock').click(function () {
     $('#day').val(new Date().getDate());
 });
 
+//Показать окно с ошибкой
+function showError(jqXHR) {
+    console.log(jqXHR.status);
+    $('#errorPanel p').text('Ошибка сервера! Код ошибки: ' + jqXHR.status);
+    $('#errorPanel').show();
+}
+
+//Скрыть окно с ошибкой
+function hideErrorPanel() {
+    $('#errorPanel').hide();
+    $('#errorPanel p').text('');
+}
+
 //Отправка формы
 $('#popUpForm').submit(function (event) {
     event.preventDefault();
-    let date = [
-        $('#year').val(),
-        ($('#month').val() < 10 ? '0' : '') + $('#month').val() ,
-        ($('#day').val() < 10 ? '0' : '') + $('#day').val() ].join('-');
+    let year = +$('#year').val();
+    let month = $('#month').val() - 1;
+    let day = +$('#day').val();
+    let date = new Date();
+    date.setFullYear(year);
+    date.setMonth(month);
+    date.setDate(day);
+
     let employee = {
         name: $('#name').val(),
         lastName: $('#lastName').val(),
@@ -167,22 +199,24 @@ $('#popUpForm').submit(function (event) {
     })
         .done(function (data) {
             if (url === '/employees/add') {
+                console.log(employee);
                 addEmployeeToTable(employee);
                 employees[data] = employee;
-
             } else {
                 tr = $('tr#' + id + '');
                 tr.children()[0].innerText = employee.pass;
                 tr.children()[1].innerText = employee.name;
                 tr.children()[2].innerText = employee.lastName;
                 tr.children()[3].innerText = positions[employee.positionId];
-                tr.children()[4].innerText = date;
+                tr.children()[4].innerText = dateConverter(date);
             }
         })
-        .fail(function () {
-            alert('Что-то пошло не так');
+        .fail(function (jqXHR) {
+            showError(jqXHR);
         })
         .always(function () {
+            hideErrorPanel();
             popUpHide();
+            id = undefined;
         });
 });

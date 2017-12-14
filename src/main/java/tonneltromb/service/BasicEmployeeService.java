@@ -49,6 +49,7 @@ public class BasicEmployeeService implements EmployeeServiceInterface {
 
     @Override
     public void editEmployee(ContractEmployee contractEmployee) {
+
         Employee employee = contractToModel(contractEmployee);
         employee.setId(contractEmployee.getId());
         employeeRepository.editEmployee(employee);
@@ -77,13 +78,14 @@ public class BasicEmployeeService implements EmployeeServiceInterface {
     }
 
     private ContractEmployee modelToContract(Employee model){
-        return new ContractEmployee(
-                model.getId(),
+        ContractEmployee employee = new ContractEmployee(
                 model.getFirstName(),
                 model.getLastName(),
                 model.getPositionId(),
                 model.getPass(),
                 model.getDateOfEmployment().getTime());
+        employee.setId(model.getId());
+        return employee;
     }
 
     private Employee contractToModel(ContractEmployee contract) {

@@ -13,13 +13,11 @@ public class ContractEmployee {
 
     public ContractEmployee() {}
 
-    public ContractEmployee(int id,
-                            String name,
+    public ContractEmployee(String name,
                             String lastName,
                             int positionId,
                             String pass,
                             long dateOfEmployment) {
-        this.id=id;
         this.name = name;
         this.lastName = lastName;
         this.positionId = positionId;

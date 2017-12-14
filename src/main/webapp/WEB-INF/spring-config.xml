@@ -13,33 +13,36 @@
         http://www.springframework.org/schema/context
         http://www.springframework.org/schema/context/spring-context.xsd">
 
-    <bean id="myTxManager" class="org.springframework.orm.jpa.JpaTransactionManager">
-        <property name="entityManagerFactory" ref="myEntityManagerFatory"/>
-    </bean>
-    <bean id="myEntityManagerFatory"
+    <context:component-scan base-package="tonneltromb"/>
+    <bean id="myEntityManagerFactory"
           class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
         <property name="dataSource" ref="dataSource" />
-        <property name="packagesToScan" value="tonneltromb.domain" />
+        <property name="packagesToScan" value="tonneltromb" />
         <property name="jpaVendorAdapter">
             <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter" />
         </property>
         <property name="jpaProperties">
             <props>
-                <prop key="hibernate.hbm2ddl.auto">create-drop</prop>
+                <!--<prop key="hibernate.hbm2ddl.auto">update</prop>-->
                 <prop key="hibernate.dialect">org.hibernate.dialect.PostgreSQL95Dialect</prop>
             </props>
         </property>
     </bean>
+
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="org.postgresql.Driver" />
         <property name="url" value="jdbc:postgresql://localhost:5432/Employee_DB" />
         <property name="username" value="postgres" />
         <property name="password" value="postgres" />
     </bean>
+
+    <bean id="myTxManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+        <property name="entityManagerFactory" ref="myEntityManagerFactory"/>
+    </bean>
+    <tx:annotation-driven transaction-manager="myTxManager"/>
+
     <mvc:annotation-driven/>
-    <context:component-scan base-package="tonneltromb"/>
     <mvc:resources mapping="/pages/**" location="/WEB-INF/html/"/>
     <mvc:resources mapping="/css/**" location="/WEB-INF/css/"/>
     <mvc:resources mapping="/javaScript/**" location="/WEB-INF/javaScript/"/>
-    <tx:annotation-driven transaction-manager="myTxManager"/>
 </beans>

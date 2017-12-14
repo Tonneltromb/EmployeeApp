@@ -3,6 +3,7 @@ package tonneltromb.rest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import tonneltromb.rest.contract.ContractEmployee;
 import tonneltromb.domain.Position;
@@ -17,10 +18,10 @@ public interface ControllerInterface {
     ResponseEntity<List<ContractEmployee>> getEmployees();
 
     @RequestMapping(value = "/employees/add", method = RequestMethod.POST, produces = "application/json")
-    ResponseEntity<Integer> addEmployee(ContractEmployee contractEmployee);
+    ResponseEntity addEmployee(ContractEmployee contractEmployee);
 
     @RequestMapping(value = "/employees/edit", method = RequestMethod.POST, produces = "application/json")
-    ResponseEntity editEmployee(ContractEmployee contractEmployee);
+    ResponseEntity editEmployee(ContractEmployee contractEmployee, @RequestParam int id);
 
     @RequestMapping(value = "/employees/remove", method = RequestMethod.GET)
     ResponseEntity removeEmployee(int id);

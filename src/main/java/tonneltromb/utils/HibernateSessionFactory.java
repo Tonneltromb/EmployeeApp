@@ -4,6 +4,8 @@ import org.hibernate.SessionFactory;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 
 public class HibernateSessionFactory {
 

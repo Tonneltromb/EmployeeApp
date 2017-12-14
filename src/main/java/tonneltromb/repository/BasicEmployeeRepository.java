@@ -11,9 +11,7 @@ import tonneltromb.utils.HibernateSessionFactory;
 import javax.persistence.TypedQuery;
 import java.util.List;
 
-
 @Repository
-@Transactional
 public class BasicEmployeeRepository implements EmployeeRepositoryInterface {
 
     private SessionFactory sessionFactory =
@@ -23,7 +21,8 @@ public class BasicEmployeeRepository implements EmployeeRepositoryInterface {
         Session session = sessionFactory.openSession();
         return session.find(Employee.class, id);
     }
-@Transactional
+
+    @Transactional
     public int addEmployee(Employee employee) {
         Session session = sessionFactory.openSession();
 //        session.getTransaction().begin();
@@ -31,22 +30,24 @@ public class BasicEmployeeRepository implements EmployeeRepositoryInterface {
 //        session.getTransaction().commit();
         return employee.getId();
     }
-@Transactional
+
+    @Transactional
     public void editEmployee(Employee employee) {
         Session session = sessionFactory.openSession();
 //        session.getTransaction().begin();
         session.update(employee);
 //        session.getTransaction().commit();
     }
-@Transactional
+
+    @Transactional
     public void removeEmployeeById(int id) {
         Session session = sessionFactory.openSession();
-       // session.getTransaction().begin();
+//        session.getTransaction().begin();
         session
                 .createQuery("delete Employee where id=:id")
                 .setParameter("id", id)
                 .executeUpdate();
-       // session.getTransaction().commit();
+//        session.getTransaction().commit();
     }
 
     public List<Employee> getAllEmployees() {
