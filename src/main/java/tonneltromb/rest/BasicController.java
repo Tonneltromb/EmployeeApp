@@ -5,12 +5,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import tonneltromb.domain.Position;
 import tonneltromb.rest.contract.ContractEmployee;
 import tonneltromb.service.EmployeeService;
-import tonneltromb.domain.Position;
-
 import java.util.List;
 
 @Component
@@ -57,7 +54,7 @@ public class BasicController implements Controller {
     }
 
     @Override
-    public ResponseEntity removeEmployee(@PathVariable int id) {
+    public ResponseEntity removeEmployee(@PathVariable Integer id) {
         try {
             service.removeEmployeeById(id);
             return new ResponseEntity(HttpStatus.OK);

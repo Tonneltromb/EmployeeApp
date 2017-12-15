@@ -7,7 +7,6 @@ import tonneltromb.domain.Employee;
 import tonneltromb.domain.Position;
 import tonneltromb.repository.EmployeeRepository;
 import tonneltromb.repository.PositionRepository;
-
 import java.util.ArrayList;
 import java.util.List;
 

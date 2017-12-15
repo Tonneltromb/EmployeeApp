@@ -1,7 +1,6 @@
 package tonneltromb.repository;
 
 import tonneltromb.domain.Employee;
-
 import java.util.List;
 
 public interface EmployeeRepository {

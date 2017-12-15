@@ -4,10 +4,10 @@ import java.util.Date;
 
 public class ContractEmployee {
 
-    private int id;
+    private Integer id;
     private String name;
     private String lastName;
-    private int positionId;
+    private Integer positionId;
     private String pass;
     private Date dateOfEmployment;
 
@@ -25,11 +25,11 @@ public class ContractEmployee {
         this.dateOfEmployment = new Date(dateOfEmployment);
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -49,11 +49,11 @@ public class ContractEmployee {
         this.lastName = lastName;
     }
 
-    public int getPositionId() {
+    public Integer getPositionId() {
         return positionId;
     }
 
-    public void setPositionId(int positionId) {
+    public void setPositionId(Integer positionId) {
         this.positionId = positionId;
     }
 

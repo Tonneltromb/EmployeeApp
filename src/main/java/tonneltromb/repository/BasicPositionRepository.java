@@ -2,7 +2,6 @@ package tonneltromb.repository;
 
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-import tonneltromb.domain.Employee;
 import tonneltromb.domain.Position;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;

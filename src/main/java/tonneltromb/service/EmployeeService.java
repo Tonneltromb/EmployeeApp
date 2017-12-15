@@ -1,10 +1,8 @@
 package tonneltromb.service;
 
-import tonneltromb.rest.contract.ContractEmployee;
 import tonneltromb.domain.Position;
-
+import tonneltromb.rest.contract.ContractEmployee;
 import java.util.List;
-import java.util.Map;
 
 public interface EmployeeService {
 

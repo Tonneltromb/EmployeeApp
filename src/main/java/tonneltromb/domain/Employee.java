@@ -13,7 +13,7 @@ public class Employee implements Comparable<Employee>, Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private int id;
+    private Integer id;
 
     @Column(name = "name")
     private String firstName;
@@ -22,7 +22,7 @@ public class Employee implements Comparable<Employee>, Serializable {
     private String lastName;
 
     @Column(name = "pos_id")
-    private int positionId;
+    private Integer positionId;
 
     @Column(name = "pass")
     private String pass;
@@ -38,7 +38,7 @@ public class Employee implements Comparable<Employee>, Serializable {
     public Employee() {
     }
 
-    public Employee(String firstName, String lastName, int positionId, String pass,
+    public Employee(String firstName, String lastName, Integer positionId, String pass,
                     String dateOfEmployment) throws ParseException {
         this.firstName = firstName;
         this.lastName = lastName;
@@ -48,7 +48,7 @@ public class Employee implements Comparable<Employee>, Serializable {
                 .parse(dateOfEmployment);
     }
 
-    public Employee(String firstName, String lastName, int positionId, String pass,
+    public Employee(String firstName, String lastName, Integer positionId, String pass,
                     Date dateOfEmployment) {
         this.firstName = firstName;
         this.lastName = lastName;
@@ -57,7 +57,7 @@ public class Employee implements Comparable<Employee>, Serializable {
         this.positionId = positionId;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
@@ -73,7 +73,7 @@ public class Employee implements Comparable<Employee>, Serializable {
         return position;
     }
 
-    public int getPositionId() {
+    public Integer getPositionId() {
         return positionId;
     }
 
@@ -86,7 +86,7 @@ public class Employee implements Comparable<Employee>, Serializable {
     }
 
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -102,7 +102,7 @@ public class Employee implements Comparable<Employee>, Serializable {
         this.position = position;
     }
 
-    public void setPositionId(int positionId) {
+    public void setPositionId(Integer positionId) {
         this.positionId = positionId;
     }
 

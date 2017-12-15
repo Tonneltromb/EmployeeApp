@@ -4,7 +4,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import tonneltromb.rest.contract.ContractEmployee;
 import tonneltromb.domain.Position;
-
 import java.util.List;
 
 @RestController
@@ -21,7 +20,7 @@ public interface Controller {
     ResponseEntity editEmployee(ContractEmployee contractEmployee);
 
     @RequestMapping(value = "/employees/remove/{id}", method = RequestMethod.DELETE)
-    ResponseEntity removeEmployee(@PathVariable int id);
+    ResponseEntity removeEmployee(@PathVariable Integer id);
 
     @RequestMapping(value = "/positions", method = RequestMethod.GET, produces = "application/json")
     ResponseEntity<List<Position>> getPositions();
