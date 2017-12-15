@@ -5,34 +5,34 @@ import org.springframework.stereotype.Service;
 import tonneltromb.rest.contract.ContractEmployee;
 import tonneltromb.domain.Employee;
 import tonneltromb.domain.Position;
-import tonneltromb.repository.EmployeeRepositoryInterface;
-import tonneltromb.repository.PositionRepositoryInterface;
+import tonneltromb.repository.EmployeeRepository;
+import tonneltromb.repository.PositionRepository;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class BasicEmployeeService implements EmployeeServiceInterface {
+public class BasicEmployeeService implements EmployeeService {
 
-    private EmployeeRepositoryInterface employeeRepository;
+    private EmployeeRepository employeeRepository;
 
-    private PositionRepositoryInterface positionRepository;
+    private PositionRepository positionRepository;
 
-    public PositionRepositoryInterface getPositionRepository() {
+    public PositionRepository getPositionRepository() {
         return positionRepository;
     }
 
-    public EmployeeRepositoryInterface getEmployeeRepository() {
+    public EmployeeRepository getEmployeeRepository() {
         return employeeRepository;
     }
 
     @Autowired
-    public void setPositionRepository(PositionRepositoryInterface positionRepository) {
+    public void setPositionRepository(PositionRepository positionRepository) {
         this.positionRepository = positionRepository;
     }
 
     @Autowired
-    public void setEmployeeRepository(EmployeeRepositoryInterface employeeRepository) {
+    public void setEmployeeRepository(EmployeeRepository employeeRepository) {
         this.employeeRepository = employeeRepository;
     }
 
@@ -52,7 +52,7 @@ public class BasicEmployeeService implements EmployeeServiceInterface {
 
         Employee employee = contractToModel(contractEmployee);
         employee.setId(contractEmployee.getId());
-        employeeRepository.editEmployee(employee);
+        employeeRepository.updateEmployee(employee);
     }
 
     @Override

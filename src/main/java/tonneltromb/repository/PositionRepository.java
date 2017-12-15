@@ -3,7 +3,6 @@ import tonneltromb.domain.Position;
 
 import java.util.List;
 
-public interface PositionRepositoryInterface {
-
+public interface PositionRepository {
     List<Position> getPositions();
 }

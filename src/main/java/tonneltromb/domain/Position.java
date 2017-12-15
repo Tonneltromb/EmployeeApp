@@ -16,11 +16,7 @@ public class Position implements Serializable {
     @Column(name = "value")
     private String name;
 
-
-    public Position(){
-        id = 0;
-        name = "не определено";
-    }
+    public Position(){}
 
     public Position(int id, String name){
         this.id = id;

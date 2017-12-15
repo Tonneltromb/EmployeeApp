@@ -3,35 +3,38 @@ package tonneltromb.rest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import tonneltromb.rest.contract.ContractEmployee;
-import tonneltromb.service.EmployeeServiceInterface;
+import tonneltromb.service.EmployeeService;
 import tonneltromb.domain.Position;
 
 import java.util.List;
 
-@RestController
-public class BasicController implements ControllerInterface {
+@Component
+public class BasicController implements Controller {
 
-    private EmployeeServiceInterface service;
+    private EmployeeService service;
 
-    public EmployeeServiceInterface getService() {
+    public EmployeeService getService() {
         return service;
     }
 
     @Autowired
-    public void setService(EmployeeServiceInterface service) {
+    public void setService(EmployeeService service) {
         this.service = service;
     }
 
     @Override
     public ResponseEntity<List<ContractEmployee>> getEmployees() {
-        List<ContractEmployee> list = service.getEmployees();
-        if (list == null) {
+        try {
+            List<ContractEmployee> list = service.getEmployees();
+            return ResponseEntity.ok(list);
+        } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        return ResponseEntity.ok(list);
     }
 
     @Override
@@ -44,9 +47,8 @@ public class BasicController implements ControllerInterface {
     }
 
     @Override
-    public ResponseEntity editEmployee(ContractEmployee contractEmployee, @RequestParam int id) {
+    public ResponseEntity editEmployee(ContractEmployee contractEmployee) {
         try {
-            contractEmployee.setId(id);
             service.editEmployee(contractEmployee);
             return new ResponseEntity(HttpStatus.OK);
         } catch (Exception e) {
@@ -55,7 +57,7 @@ public class BasicController implements ControllerInterface {
     }
 
     @Override
-    public ResponseEntity removeEmployee(@RequestParam int id) {
+    public ResponseEntity removeEmployee(@PathVariable int id) {
         try {
             service.removeEmployeeById(id);
             return new ResponseEntity(HttpStatus.OK);
@@ -66,10 +68,11 @@ public class BasicController implements ControllerInterface {
 
     @Override
     public ResponseEntity<List<Position>> getPositions() {
-        List<Position> list = service.getPositions();
-        if (list == null) {
+        try {
+            List<Position> list = service.getPositions();
+            return ResponseEntity.ok(list);
+        } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        return ResponseEntity.ok(list);
     }
 }

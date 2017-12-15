@@ -10,7 +10,7 @@ import java.util.List;
 
 @Repository
 @Transactional
-public class BasicEmployeeRepository implements EmployeeRepositoryInterface {
+public class BasicEmployeeRepository implements EmployeeRepository {
 
 private EntityManager manager;
 
@@ -28,7 +28,7 @@ private EntityManager manager;
         return employee.getId();
     }
 
-    public void editEmployee(Employee employee) {
+    public void updateEmployee(Employee employee) {
         manager.merge(employee);
     }
 

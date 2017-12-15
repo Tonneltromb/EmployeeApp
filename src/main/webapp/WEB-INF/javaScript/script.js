@@ -1,8 +1,5 @@
-let id;
-let url;
 let positions = {};
 let employees = {};
-
 
 $(document).ready(function () {
     popUpHide();
@@ -20,7 +17,7 @@ $(document).ready(function () {
 
 //Функция отрисовки tbody таблицы сотрудников
 function showEmployees() {
-    $.getJSON('/employees/showAll', function (data) {
+    $.getJSON('/employees', function (data) {
         $.each(data, function (id, employee) {
             employees[employee.id] = employee;
             addEmployeeToTable(employee);
@@ -88,15 +85,18 @@ function addPositionsToSelectOfPositions() {
 //Кнопка добавления сотрудника
 $(".addButton").click(function () {
     hideErrorPanel();
+    if($('#employeeId').val()){
+        $('#employeeId').removeAttr('value');
+    }
     $('input').val(null);
-    url = '/employees/add';
+    $('#action').val('add');
     $('#year').val(new Date().getFullYear());
     $('#month').val(new Date().getMonth() + 1);
     $('#day').val(new Date().getDate());
     popUpShow();
 });
 
-//Кнопка обновления
+//Кнопка обновления таблицы
 $('.refreshButton').click(function () {
     $('tbody tr').remove();
     hideErrorPanel();
@@ -107,9 +107,8 @@ $('.refreshButton').click(function () {
 $('table').on('click', '.deleteButton', function (event) {
     let tr = event.target.parentElement.parentElement;
     $.ajax({
-        url: '/employees/remove',
-        data: {id: tr.id},
-        type: 'GET'
+        url: '/employees/remove/'+ tr.id,
+        type: 'DELETE'
     })
         .done(function () {
             tr.remove();
@@ -122,12 +121,11 @@ $('table').on('click', '.deleteButton', function (event) {
 //Кнопка редактирования сотрудника
 $('table').on('click', '.redactButton', function (event) {
     hideErrorPanel();
-    url = '/employees/edit';
     let tr = event.target.parentElement.parentElement;
-    id = tr.id;
-    let employee = employees[id];
+    $('#action').val('edit');
+    $('#employeeId').val(tr.id);
+    let employee = employees[tr.id];
     let date = new Date(employee.dateOfEmployment);
-
     $('#name').val(employee.name);
     $('#lastName').val(employee.lastName);
     $('#position').val(employee.positionId);
@@ -135,7 +133,6 @@ $('table').on('click', '.redactButton', function (event) {
     $('#year').val(date.getFullYear());
     $('#month').val(date.getMonth() + 1);
     $('#day').val(date.getDate());
-
     popUpShow();
 });
 
@@ -143,8 +140,9 @@ $('table').on('click', '.redactButton', function (event) {
 $('.escapeButton').click(function () {
     $('input').val(null);
     $('#position').val(0);
-    url = null;
-    id = undefined;
+    if($('#employeeId').val()){
+        $('#employeeId').removeAttr('value');
+    }
     popUpHide();
 });
 
@@ -182,24 +180,27 @@ $('#popUpForm').submit(function (event) {
     date.setMonth(month);
     date.setDate(day);
 
+    let id = $('#employeeId').val();
+    let action = $('#action').val();
     let employee = {
         name: $('#name').val(),
         lastName: $('#lastName').val(),
         positionId: +$('#position').val(),
         pass: ($('#pass').val()),
-        dateOfEmployment: new Date(date).getTime(),
-        id: id
+        dateOfEmployment: date.getTime(),
+        id: (id ? id : undefined)
     };
 
     $.ajax({
-        url: url,
+        url: '/employees/' + action,
         data: employee,
         type: 'POST'
     })
-        .done(function (data) {
-            if (url === '/employees/add') {
+        .done(function (newEmployeeId) {
+            if (action === 'add') {
+                employee['id'] = newEmployeeId;
                 addEmployeeToTable(employee);
-                employees[data] = employee;
+                employees[newEmployeeId] = employee;
             } else {
                 tr = $('tr#' + id + '');
                 tr.children()[0].innerText = employee.pass;
@@ -215,6 +216,5 @@ $('#popUpForm').submit(function (event) {
         .always(function () {
             hideErrorPanel();
             popUpHide();
-            id = undefined;
         });
 });

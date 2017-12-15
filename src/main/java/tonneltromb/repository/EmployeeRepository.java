@@ -4,13 +4,13 @@ import tonneltromb.domain.Employee;
 
 import java.util.List;
 
-public interface EmployeeRepositoryInterface{
+public interface EmployeeRepository {
 
     Employee getEmployeeById(int value);
 
     int addEmployee(Employee employee);
 
-    void editEmployee(Employee e);
+    void updateEmployee(Employee e);
 
     void removeEmployeeById(int value);
 

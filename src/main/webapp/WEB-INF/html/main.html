@@ -52,7 +52,7 @@
     <div id="popUpContainer">
         <div id="popUpContent" align="center">
             <form id="popUpForm">
-                <!--Временная кнопка для заполнения формы-->
+                <!--Кнопка заполнения формы липовым сотрудником-->
                 <button type="button" id="getMock">Mock<br> Employee</button>
 
                 <p>Имя<input type="text" id="name"></p>
@@ -63,6 +63,8 @@
                 <p>год<input type="number" id="year"></p>
                 <p>месяц<input type="number" id="month"></p>
                 <p>день<input type="number" id="day"></p>
+                <input type="hidden" id="employeeId">
+                <input type="hidden" id="action">
                 <button type="submit" class="submit">Отправить</button>
                 <button type="reset">Сбросить</button>
                 <button type="button" class="escapeButton">Отмена</button>

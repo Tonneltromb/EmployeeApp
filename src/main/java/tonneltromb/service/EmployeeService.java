@@ -6,7 +6,7 @@ import tonneltromb.domain.Position;
 import java.util.List;
 import java.util.Map;
 
-public interface EmployeeServiceInterface {
+public interface EmployeeService {
 
     int addEmployee(ContractEmployee contractEmployee);
     void removeEmployeeById(int id);

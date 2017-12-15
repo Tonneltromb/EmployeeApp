@@ -14,6 +14,12 @@
         http://www.springframework.org/schema/context/spring-context.xsd">
 
     <context:component-scan base-package="tonneltromb"/>
+    <tx:annotation-driven transaction-manager="tyxManager"/>
+    <mvc:annotation-driven/>
+    <mvc:resources mapping="/pages/**" location="/WEB-INF/html/"/>
+    <mvc:resources mapping="/css/**" location="/WEB-INF/css/"/>
+    <mvc:resources mapping="/javaScript/**" location="/WEB-INF/javaScript/"/>
+
     <bean id="myEntityManagerFactory"
           class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
         <property name="dataSource" ref="dataSource" />
@@ -35,13 +41,7 @@
         <property name="password" value="postgres" />
     </bean>
 
-    <bean id="myTxManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+    <bean id="tyxManager" class="org.springframework.orm.jpa.JpaTransactionManager">
         <property name="entityManagerFactory" ref="myEntityManagerFactory"/>
     </bean>
-    <tx:annotation-driven transaction-manager="myTxManager"/>
-
-    <mvc:annotation-driven/>
-    <mvc:resources mapping="/pages/**" location="/WEB-INF/html/"/>
-    <mvc:resources mapping="/css/**" location="/WEB-INF/css/"/>
-    <mvc:resources mapping="/javaScript/**" location="/WEB-INF/javaScript/"/>
 </beans>
